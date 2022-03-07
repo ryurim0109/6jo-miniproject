@@ -1,0 +1,219 @@
+@charset "utf-8";
+
+/********reset css************/
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+ul,li{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color:#333;
+}
+img{
+    border:none;
+    vertical-align: middle;
+}
+header, section, footer{ display: block; margin:0; padding:0; }
+.clearFix,.clearFix::after,.clearFix::before{
+    display: block; content: ""; clear: both;
+}
+/* 헤더 */
+header#header{
+    width: 100%;
+    float: left;
+    background: #123389;
+    height: 230px; position: relative;
+}
+div#header_inner{
+    width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+}
+h1#logo{
+    width: 100%;
+    float: left;
+    text-align: center;
+    color:#fff;
+    margin-top: 60px;
+    font: bold 4rem "Noto Sans KR";
+}
+ul#memberInfo{
+    position: absolute;
+    top:150px;
+    right: 30px;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    gap:20px;
+}
+ul#memberInfo li{
+    height: 40px;
+}
+ul#memberInfo li  a{
+    display: block;
+    font: normal 1.125rem/40px "Noto Sans KR";
+    color:#fff;
+}
+button#logout{
+    width: 100px;
+    height: 40px;
+    border-radius: 8px;
+    text-align: center;
+    line-height: 40px;
+    padding: 0;
+}
+button#logout a{
+    display: block;
+    font: normal 1.125rem/40px "Noto Sans KR";
+}
+ul#memberInfo li:hover >a{
+    color: #D81833;
+    text-decoration: underline;
+}
+/*******Section 1***********/
+section#musicInfo{
+    width: 100%;
+    float:left;
+    position: relative;
+    min-height: 900px;
+}
+div#musicInfo_inner{
+    width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+div#musical_information{
+    width:100%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+}
+div#m_i{
+    width: 50%;
+    height:632px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 100px;
+}
+m_i >img{
+    width: 300px;
+    height: 400px;
+    background: #fff;
+}
+div#m_i p{
+    font:normal 1.250rem "Noto Sans KR";
+}
+p.m_title{
+    margin-top:30px;
+}
+div#comment_box{
+    position: relative;
+    width: 50%;
+    height: 632px;
+    margin-top: 100px;
+    font:normal 1rem "Noto Sans KR";
+}
+div#c_box{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+    gap:10px;
+}
+div.nickname{
+    width: 100px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+}
+div#ment_box{
+    width: 100%;
+    margin-top: 10px;
+    position: relative;
+}
+div#ment_list{
+    background: #9AB2F1;
+    padding: 5% 0;
+    min-height: 632px;
+}
+div.mentlistli{
+    position: relative;
+    height: 120px;
+    border-top: 1px solid #000;
+    margin: 0 5%;
+    padding: 10px;
+    display: flex;
+    flex-direction:column;
+
+}
+div.mentlistli:first-child{
+    border:none
+}
+button.change{
+    position: absolute;
+    height: 40px;
+    border:none;
+    right: 10px;
+}
+/***********footer**********/
+footer#footer{
+    width:100%;
+    position: relative;
+    height: 100px;
+    background: #0B1C48;
+    float: left;
+}
+footer#footer div{
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    padding-top: 50px;
+    text-align: center;
+}
+footer#footer div a{
+    color:#fff;
+    padding-left: 10px;
+
+}
+/******미디어 스크린******/
+@media screen and (max-width:1200px){
+    div#header_inner,div#musical_information,div#musicInfo_inner,footer#footer div{
+        width: 100%;
+    }
+}
+@media screen and (max-width:1170px){
+    div#m_i,div#comment_box{
+        width: 100%;
+    }
+}
+@media screen and (max-width:980px){
+
+    div#musical_information{
+        flex-direction: column;
+    }
+    div#m_i{
+        width: 100%;
+    }
+    div#comment_box{
+        width: 100%;
+        margin-top: 0;
+    }
+}
+@media screen and (max-width:720px){
+    body,html{
+        font-size:14px;
+    }
+    h1#logo{
+        margin-top: 0;
+    }
+    div#comment_box{
+        width:100%;
+    }
+}

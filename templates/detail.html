@@ -1,10 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>뮤덕인생</title>
+    <link rel="shortcut icon" href="../static/img/favicon.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/css/detail.css"  />
+    <script defer src="../static/js/detail.js"></script>
 
-</body>
+  </head>
+  <body>
+  <header id="header" class="clearFix">
+    <div id="header_inner" class="clearFix">
+      <h1 id="logo">
+        뮤덕인생
+      </h1>
+      <ul id="memberInfo">
+        <li><a>00님 환영합니다!</a></li>
+        <li><button id="logout" type="button" class="btn btn-primary"><a>로그아웃</a></button></li>
+      </ul>
+    </div>
+  </header>
+  <section id="musicInfo" class="clearFix">
+    <div id="musicInfo_inner" class="clearFix">
+      <div id="musical_information">
+        <div id="m_i">
+          <img
+                  src="https://ticketimage.interpark.com/Play/image/large/21/21007693_p.gif"
+                  title=""
+                  width="300px"
+                  height="400px"
+                  alt=""
+                />
+
+            <p class="m_title">뮤지컬 지킬앤하이드 (Jekyll＆Hyde)</p>
+            <p class="m_period">2021.10.19 ~2022.05.08</p>
+            <p class="m_place">샤롯데씨어터</p>
+          </div>
+        <div id="comment_box">
+          <div id="c_box" class="form-floating mb-3">
+            <div class="nickname">00님</div>
+            <input id="comment" type="text" class="form-control" placeholder="댓글을 입력해주세요!">
+            <select id="star" class="form-select" aria-label="Default select example">
+              <option selected>-- 별점⭐ --</option>
+              <option value="1">⭐</option>
+              <option value="2">⭐⭐</option>
+              <option value="3">⭐⭐⭐</option>
+              <option value="4">⭐⭐⭐⭐</option>
+              <option value="5">⭐⭐⭐⭐⭐</option>
+            </select>
+            <button type="button" class="btn btn-dark">입력</button>
+          </div> <!--c_box-->
+          <div id="ment_box" class="clearFix">
+              <div id="ment_list">
+                <div class="mentlistli">
+                  <p class="nickname">유림</p>
+                  <p class="comment_r">재미있어요 !</p>
+                  <p class="star">별점 : ⭐⭐⭐⭐⭐</p>
+                  <button type="button" class="btn btn-outline-danger change">수정</button>
+                </div>
+                <div class="mentlistli">
+                  <p class="nickname">유림</p>
+                  <p class="comment_r">재미있어요 !</p>
+                  <p class="star">별점 : ⭐⭐⭐⭐⭐</p>
+                  <button type="button" class="btn btn-outline-danger change">수정</button>
+                </div>
+
+              </div>  <!--ment_list-->
+          </div> <!--ment_box-->
+
+        </div>
+
+          </div>
+      </div> <!--musical_infomation-->
+  </section>
+   <footer id="footer" class="clearFix">
+      <div>
+        <a href="https://github.com/ryurim0109">김유림</a>
+        <a href="#;">신민철</a>
+        <a href="#;">최봉진</a>
+        <a href="#;">오예령</a>
+      </div>
+    </footer>
+  </body>
 </html>
+
+
+
