@@ -1,10 +1,249 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Sign Up 09</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://kit.fontawesome.com/05f8d7998d.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../static/css/signup.css">
+    <style>
+        html, body{
+            margin:0;
+            height:100%;
+            overflow: hidden;
+        }
+        .field-icon {
+            cursor: pointer
+        }
+        form > div{margin-top:30px;}
+
+        .help {
+            position: absolute;
+            font-size: 11.5px;
+            color: #eed5d5;
+        }
+
+        .is-danger {
+            color: red;
+        }
+        .is-success{
+            color:green;
+        }
+    </style>
+
+    <script>
+        function sign_up() {
+            let useremail = $("#input-email").val()
+            let username = $("#input-username").val()
+            let password = $("#password").val()
+            let password2 = $("#password-confirm").val()
+            console.log(useremail, password, password2)
+
+
+            if ($("#help-id2").hasClass("is-danger")) {
+                alert("닉네임을 다시 확인해주세요.")
+                return;
+            } else if (!$("#help-id2").hasClass("is-success")) {
+                alert("닉네임 중복확인을 해주세요.")
+                return;
+            } else if ($("#help-id").hasClass("is-danger")) {
+                alert("아이디를 다시 확인해주세요.")
+                return;
+            } else if(!$("#help-id").hasClass("is-success")) {
+                alert("아이디 중복확인을 해주세요.")
+                return;
+            }
+
+            if (password == "") {
+                $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#password").focus()
+                return;
+            } else if (!is_password(password)) {
+                $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
+                $("#password").focus()
+                return
+            } else {
+                $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
+            }
+            if (password2 == "") {
+                $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#password-confirm").focus()
+                return;
+            } else if (password2 != password) {
+                $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
+                $("#password-confirm").focus()
+                return;
+            } else {
+                $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
+            }
+            $.ajax({
+                type: "POST",
+                url: "/sign_up/save",
+                data: {
+                    useremail_give: useremail,
+                    username_give : username,
+                    password_give: password
+                },
+                success: function (response) {
+                    alert("회원가입을 축하드립니다!")
+                    window.location.href="/"
+                }
+            });
+
+        }
+
+        function is_nickname(asValue) {
+            var regExp = /^([a-zA-Z0-9가-힣]){2,10}$/;
+            return regExp.test(asValue);
+        }
+
+        function is_password(asValue) {
+            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
+            return regExp.test(asValue);
+        }
+
+        function is_email(asValue) {
+            var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            return regExp.test(asValue);
+        }
+
+        function check_dup() {
+            let useremail = $("#input-email").val()
+            console.log(useremail)
+            if (useremail == "") {
+                $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe is-success").addClass("is-danger")
+                $("#input-email").focus()
+                return;
+            }
+            if (!is_email(useremail)) {
+                $("#help-id").text("아이디의 형식을 확인해주세요.").removeClass("is-safe is-success").addClass("is-danger")
+                $("#input-email").focus()
+                return;
+            }
+            $("#help-id").addClass("is-loading")
+            $.ajax({
+                type: "POST",
+                url: "/sign_up/check_dup",
+                data: {
+                    useremail_give: useremail
+                },
+                success: function (response) {
+
+                    if (response["exists"]) {
+                        $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe is-success").addClass("is-danger")
+                        $("#input-email").focus()
+                    } else {
+                        $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
+                    }
+                    $("#help-id").removeClass("is-loading")
+
+                }
+            });
+        }
+
+        function check_dup2() {
+            let username = $("#input-username").val()
+            console.log(username)
+            if (username == "") {
+                $("#help-id2").text("닉네임을 입력해주세요.").removeClass("is-safe is-success").addClass("is-danger")
+                $("#input-username").focus()
+                return;
+            }
+            if (!is_nickname(username)) {
+                $("#help-id2").text("닉네임의 형식을 확인해주세요.").removeClass("is-safe is-success").addClass("is-danger")
+                $("#input-username").focus()
+                return;
+            }
+            $("#help-id2").addClass("is-loading")
+            $.ajax({
+                type: "POST",
+                url: "/sign_up/check_dup2",
+                data: {
+                    username_give: username
+                },
+                success: function (response) {
+
+                    if (response["exists"]) {
+                        $("#help-id2").text("이미 존재하는 닉네임입니다.").removeClass("is-safe is-success").addClass("is-danger")
+                        $("#input-username").focus()
+                    } else {
+                        $("#help-id2").text("사용할 수 있는 닉네임입니다.").removeClass("is-danger").addClass("is-success")
+                    }
+                    $("#help-id2").removeClass("is-loading")
+
+                }
+            });
+        }
+    </script>
 </head>
-<body>
+<body class="img"
+      style="background-image: url(https://cdn.pixabay.com/photo/2017/01/11/00/29/sydney-1970604_960_720.jpg);">
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Sign Up</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="login-wrap">
+                    <h3 class="text-center mb-4">회원 가입</h3>
+                    <form action="#" class="signup-form">
+                        <div id="sign-up-box" class="form-group mb-3">
+                            <label class="label " for="input-username">Nickname</label>
+                            <input type="text" maxlength="10"; autocomplete="off" id="input-username" class="form-control" placeholder="superman">
+                            <p id="help-id2" class="help">닉네임은 2-10자의 영문과 숫자, 한글만 입력 가능합니다.</p>
+                        <p id="help-id-login2" class="help is-danger"></p>
+                            <span class="icon fa fa-user-o"></span>
+                            <i id="double-check2" class="field-icon fa-solid fa-circle-check" onclick="check_dup2()"></i>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="label" for="input-email">ID</label>
+                            <input type="text" autocomplete="off" id="input-email" class="form-control" placeholder="johndoe@gmail.com">
+                            <p id="help-id" class="help">아이디는 @를 반드시 포함한 이메일 형식으로 입력해주세요.</p>
+                            <p id="help-id-login" class="help is-danger"></p>
+                            <span class="icon fa fa-paper-plane-o"></span>
+                            <i id="double-check" class="field-icon fa-solid fa-circle-check" onclick="check_dup()"></i>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="label" for="password">Password</label>
+                            <input id="password" type="password" class="form-control" placeholder="Password">
+                            <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요.</p>
+                            <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span class="icon fa fa-lock"></span>
+                        </div>
+                        <div id="password2" class="form-group mb-3">
+                            <label class="label" for="password-confirm">Password check</label>
+                            <input id="password-confirm" type="password" class="form-control" placeholder="Password check">
+                            <p id="help-password2" class="help">비밀번호를 다시 한 번 입력해주세요.</p>
+                            <span toggle="#password-confirm" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span class="icon fa fa-lock"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id='bt2' class="form-control btn btn-primary submit px-3" onclick="sign_up()">Sign Up</button>
+                        </div>
+                    </form>
+                    <p>I'm already a member! <a data-toggle="tab" href="#" onclick="window.location.href='/'">Sign In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/popper.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/main.js"></script>
 
 </body>
 </html>
+
