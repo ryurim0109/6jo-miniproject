@@ -188,11 +188,6 @@ footer#footer div a{
         width: 100%;
     }
 }
-@media screen and (max-width:1170px){
-    div#m_i,div#comment_box{
-        width: 100%;
-    }
-}
 @media screen and (max-width:980px){
 
     div#musical_information{
@@ -204,6 +199,15 @@ footer#footer div a{
     div#comment_box{
         width: 100%;
         margin-top: 0;
+    }
+    ul#memberInfo{
+        position: absolute;
+        left:50%;
+        transform: translateX(-50%);
+        top:100px;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
     }
 }
 @media screen and (max-width:720px){
