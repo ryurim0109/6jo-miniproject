@@ -35,6 +35,37 @@
                     }
                 }
             })}
+
+        // function find() {
+        //     let search_title = $('#find_text').val()
+        //     if (search_title == '') {
+        //         alert('검색할 제목을 입력해주세요.')
+        //         return;
+        //     }
+        //     event.preventDefault()
+        //     $.ajax({
+        //         type: "GET",
+        //         url : "/search",
+        //         data : {"search_title":search_title},
+        //         success: function (response) {
+        //             console.log(response)
+        //         }
+        //     })
+        // }
+
+        function find() {
+            let search = document.getElementById("find_text").value.toLowerCase();
+            let musical = document.getElementsByClassName("musical");
+
+            for (let i = 0; i < musical.length; i++) {
+                musicaltitle = musical[i].getElementsByClassName("musical-title");
+                if (musicaltitle[0].innerHTML.toLowerCase().indexOf(search) != -1) {
+                    musical[i].style.display = ""
+                } else {
+                    musical[i].style.display = "none"
+                }
+            }
+        }
     </script>
 
 </head>
@@ -83,9 +114,9 @@
 <!-- Section-->
 <nav class="navbar navbar-light" id="search_bar" >
   <div class="search">
-    <form class="d-flex">
+    <form class="d-flex" action="/search" >
       <input class="form-control me-2" type="search" placeholder="검색어를 입력해주세요." aria-label="Search" id="find_text" >
-      <button class="btn btn-outline-success" type="submit" >검색</button>
+      <button class="btn btn-outline-success" type="submit" onclick="find()">검색</button>
     </form>
   </div>
 </nav>
