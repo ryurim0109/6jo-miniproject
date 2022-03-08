@@ -98,6 +98,7 @@ def musical_list():
 def detail_go():
     return render_template('detail.html')
 
+#############디테일 페이지 뮤지컬 정보 불러오기
 @app.route('/detail1', methods=["POST"])
 def detail():
     title_receive = request.form['title_give']
