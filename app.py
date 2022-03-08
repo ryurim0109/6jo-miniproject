@@ -19,7 +19,8 @@ db = client.sign_up
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    musical = list(db.musicals.find({}, {'id':False}))
+    return render_template('index.html', musical=musical)
 
 
 @app.route('/signup')
