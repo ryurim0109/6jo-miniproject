@@ -94,10 +94,15 @@ def musical_list():
 
 ##########################디테일 페이지로 이동###############################
 
-@app.route('/detail/<keyword>')
-def detail(keyword):
-    music = list(db.musicals.find_one({'title': keyword}, {'id': False}))
-    return render_template('detail.html', music=music)
+@app.route('/detail')
+def detail_go():
+    return render_template('detail.html')
+
+@app.route('/detail1', methods=["POST"])
+def detail():
+    title_receive = request.form['title_give']
+    music = db.musicals.find_one({'title': title_receive},{'_id': False})
+    return jsonify({'music': music})
 
 
 

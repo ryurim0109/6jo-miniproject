@@ -18,7 +18,41 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../static/css/detail.css"  />
-    <script defer src="../static/js/detail.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            let getLink = window.location.search;
+            let title = decodeURI(getLink.split('?')[1])
+            load(title)
+        })
+
+        function load(title){
+            $('#m_i').empty()
+            $.ajax({
+                type: "POST",
+                url: "/detail1",
+                data: {title_give: title},
+                success: function (reponse){
+                        let title=reponse['music']['title']
+                        let date=reponse['music']['date']
+                        let image=reponse['music']['image']
+                        let place=reponse['music']['place']
+                    let temp_html =` <img
+                                          src="${image}"
+                                          title=""
+                                          width="300px"
+                                          height="400px"
+                                          alt=""
+                                        />
+
+                                    <p class="m_title">${title}</p>
+                                    <p class="m_period">${date}</p>
+                                    <p class="m_place">${place}</p>`
+
+                    $('#m_i').append(temp_html)
+                }
+            })
+        }
+    </script>
 
   </head>
   <body>
@@ -38,16 +72,16 @@
       <div id="musical_information">
         <div id="m_i">
           <img
-                  src="{{ music.image }}"
+                  src=""
                   title=""
                   width="300px"
                   height="400px"
                   alt=""
                 />
 
-            <p class="m_title">{{ music.title }}</p>
-            <p class="m_period">{{ music.date }}</p>
-            <p class="m_place">{{ music.place }}</p>
+            <p class="m_title"></p>
+            <p class="m_period"></p>
+            <p class="m_place"></p>
           </div>
         <div id="comment_box">
           <div id="c_box" class="form-floating mb-3">
