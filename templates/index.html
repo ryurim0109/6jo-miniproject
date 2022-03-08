@@ -92,22 +92,23 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="musicals" >
-        {% set num =cycler('1','2','3','4','5','6','7','8','9') %}
-            {% for musicals in musical %}
-            <div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?title_give='{{ num.next() }}'';">
+            {% for musical in musicals %}
+            <div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail/{{ musical.title }}';">
                 <div class="card h-100" >
-                    <img class="card-img-top" src="{{ musicals.image }}" alt="..."/>
+                    <img class="card-img-top" src="{{ musical.image }}" alt="..."/>
                     <div class="card-body p-4">
                         <div class="text-center">
-                            <h5 class="fw-bolder">{{ musicals.title }}}</h5>
+                            <h5 class="fw-bolder">{{ musical.title }}</h5>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
+
         <div id="more-btn">
         </div>
+
     </div>
 </section>
 <!-- Footer-->

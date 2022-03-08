@@ -16,13 +16,13 @@ client = MongoClient('mongodb+srv://test:sparta@cluster0.7fswg.mongodb.net/?retr
 db = client.sign_up
 
 
-
+##############메인페이지에 뮤지컬 정보 붙여넣기###############
 @app.route('/')
 def home():
-    musical = list(db.musicals.find({}, {'id':False}))
-    return render_template('index.html', musical=musical)
+    musicals = list(db.musicals.find({}, {'id':False}))
+    return render_template('index.html', musicals=musicals)
 
-
+##############회원가입###############
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
@@ -62,16 +62,13 @@ def check_dup2():
 
 
 
-#########################################################
-#민철님
-#########################################################
+
 
 
 
 
 #########################################################
-#예령님
-#########################################################
+#예령님 더보기 버튼
 
 
 
@@ -84,9 +81,6 @@ soup = BeautifulSoup(data.text, 'html.parser')
 
 musicals = soup.select('table > tbody > tr')
 
-@app.route('/detail')
-def detail():
-    return render_template('detail.html')
 
 
 @app.route("/list", methods=["GET"])
@@ -98,9 +92,13 @@ def musical_list():
     return jsonify({'musicals': musical_list, 'last_page': last_page})
 
 
-#########################################################
-#유림
-#########################################################
+##########################디테일 페이지로 이동###############################
+
+@app.route('/detail/<keyword>')
+def detail(keyword):
+    music = list(db.musicals.find_one({'title': keyword}, {'id': False}))
+    return render_template('detail.html', music=music)
+
 
 
 #########################################################

@@ -38,16 +38,16 @@
       <div id="musical_information">
         <div id="m_i">
           <img
-                  src="https://ticketimage.interpark.com/Play/image/large/21/21007693_p.gif"
+                  src="{{ music.image }}"
                   title=""
                   width="300px"
                   height="400px"
                   alt=""
                 />
 
-            <p class="m_title">뮤지컬 지킬앤하이드 (Jekyll＆Hyde)</p>
-            <p class="m_period">2021.10.19 ~2022.05.08</p>
-            <p class="m_place">샤롯데씨어터</p>
+            <p class="m_title">{{ music.title }}</p>
+            <p class="m_period">{{ music.date }}</p>
+            <p class="m_place">{{ music.place }}</p>
           </div>
         <div id="comment_box">
           <div id="c_box" class="form-floating mb-3">
