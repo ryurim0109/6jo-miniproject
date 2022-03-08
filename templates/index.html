@@ -27,7 +27,13 @@
                 url: "/list",
                 data: {'page': page},
                 success: function (response) {
+                    let rows = response['musicals']
                     let last_page = response['last_page']
+                    for(let i =0; i< row.lenth; i++){
+                        let image = rows[i]['image']
+                        let title = rows[i]['title']
+                        let temp_html =``
+                    }
                     page += 1;
                     let temp_html = `<a class="btn btn-secondary" onclick="list(${page})" >더보기</a></li>`
                     if (page != last_page) {
