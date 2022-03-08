@@ -98,13 +98,23 @@ def musical_list():
 def detail_go():
     return render_template('detail.html')
 
+#############디테일 페이지 뮤지컬 정보 불러오기
 @app.route('/detail1', methods=["POST"])
 def detail():
     title_receive = request.form['title_give']
     music = db.musicals.find_one({'title': title_receive},{'_id': False})
     return jsonify({'music': music})
 
-
+@app.route('/search', methods=["GET"])
+def search():
+    # find_title를 포함한 제목 찾아서 db에 저장된 image, title 보여주기
+    search_title = request.form['search_title']
+    if search_title is None:
+        all_musicals = list(db.musicals.find({}, {'_id': False}))
+        return render_template('index.html', musicals=all_musicals)
+    else:
+        search_musicals = list(db.musicals.find({'musical_title':{"$regex":search_title}},{'id':False}))
+        return render_template('search_main.html', musicals=search_musicals)
 
 #########################################################
 # 실행 코드 (맨 아래)

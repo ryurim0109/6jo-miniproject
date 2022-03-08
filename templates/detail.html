@@ -19,12 +19,14 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../static/css/detail.css"  />
     <script type="text/javascript">
+        //페이지 로딩시 주소창에서 타이틀 값 가져오는 함수 실행
         $(document).ready(function(){
             let getLink = window.location.search;
             let title = decodeURI(getLink.split('?')[1])
             load(title)
         })
 
+        //뮤지컬 정보값 받아와서 화면에 붙여줌
         function load(title){
             $('#m_i').empty()
             $.ajax({
