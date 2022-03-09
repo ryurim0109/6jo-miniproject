@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>뮤덕인생</title>
+    <title>뮤지컬 리스트 | 뮤덕인생</title>
     <link rel="shortcut icon" href="../static/img/favicon.png" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <!-- bootstrap -->
@@ -117,7 +117,7 @@
       </h1>
       <ul id="memberInfo">
         <li><a>{{ name }}님 환영합니다!</a></li>
-        <li><button id="logout" type="button" class="btn btn-primary" onclick="logout('mytoken')"><a>로그아웃</a></button></li>
+        <li><button id="logout" type="button"  class="btn btn-outline-dark" onclick="logout('mytoken')"><a>로그아웃</a></button></li>
       </ul>
     </div>
   </header>
@@ -149,12 +149,12 @@
               <option value="4">⭐⭐⭐⭐</option>
               <option value="5">⭐⭐⭐⭐⭐</option>
             </select>
-            <button id="commentBtn" type="button" class="btn btn-dark" onclick="showComment(decodeURI(window.location.search.split('?')[1]))">입력</button>
+            <button id="commentBtn" type="button"  class="btn btn-outline-dark" onclick="showComment(decodeURI(window.location.search.split('?')[1]))">입력</button>
             {#<button id="commentBtn" type="button" class="btn btn-dark" onclick="showComment()">입력</button>#}
             {#<button id="commentBtn" type="button" class="btn btn-dark">입력</button>#}
           </div> <!--c_box-->
           <div id="ment_box" class="clearFix">
-              <div id="ment_list">
+              <div id="ment_list" class="clearFix">
                 {#<div class="mentlistli">
                   <p id="nickname" class="nickname">유림</p>
                   <p class="comment_r">재미있어요 !</p>

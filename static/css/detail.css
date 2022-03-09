@@ -25,7 +25,7 @@ header, section, footer{ display: block; margin:0; padding:0; }
 header#header{
     width: 100%;
     float: left;
-    background: #123389;
+    background: #212529;
     height: 230px; position: relative;
 }
 div#header_inner{
@@ -39,7 +39,7 @@ h1#logo{
     text-align: center;
     color:#fff;
     margin-top: 60px;
-    font: bold 4rem "Noto Sans KR";
+    font: bold 3.5rem "Noto Sans KR";
 }
 ul#memberInfo{
     position: absolute;
@@ -79,7 +79,7 @@ section#musicInfo{
     width: 100%;
     float:left;
     position: relative;
-    min-height: 900px;
+    height: 900px;
 }
 div#musicInfo_inner{
     width: 1200px;
@@ -139,7 +139,7 @@ div#ment_box{
     position: relative;
 }
 div#ment_list{
-    background: #9AB2F1;
+    background: #eee;
     padding: 5% 0;
     height: 632px;
     overflow:scroll;
@@ -171,7 +171,7 @@ footer#footer{
     width:100%;
     position: relative;
     height: 100px;
-    background: #0B1C48;
+     background: #212529;
     float: left;
 }
 footer#footer div{
@@ -218,6 +218,13 @@ footer#footer div a{
     h1#logo{
         margin-top: 10px;
     }
+    section#musicInfo{
+    height: 1330px;
+}
+
+    div#ment_list{
+    height: 500px;
+}
 }
 @media screen and (max-width:720px){
     body,html{
