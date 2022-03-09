@@ -36,8 +36,10 @@ def home():
             # 닉네임 & 뮤지컬 목록 반환하기
             return render_template("index.html", all_musicals=all_musicals, name=user)
         else:
-            search_musicals = list(db.musicals.find({"title": {"$regex": search_title}}, {"id_": False}))
-            return render_template("search_main.html", serach_musicals=search_musicals, name=user)
+            search_musicals = list(db.musicals.find({"title": {"$regex": search_title}}, {'_id': False}))
+            print(search_musicals)
+            return jsonify({'result':'success','search_musicals':search_musicals})
+            # return render_template("search_main.html", search_musicals=search_musicals, name=user)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))

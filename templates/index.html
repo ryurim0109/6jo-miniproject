@@ -58,16 +58,31 @@
             if (search_title == '') {
                 alert('검색할 제목을 입력해주세요.')
                 return;
-            }
+            } $('#musicals').empty();
             event.preventDefault()
             $.ajax({
                 type: "GET",
                 url: "/index",
                 data: {"search_title": search_title},
                 success: function (response) {
-                    console.log(response)
-                }
-            })
+                    let rows = response['search_musicals']
+                    for (let i=0; i<rows.length; i ++) {
+                        let image = rows[i]['image']
+                        let title = rows[i]['title']
+                        let temp_html = `<div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?${title}';">
+                                    <div class="card h-100">
+                                        <img class="card-img-top" src="${image}" alt="..."/>
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder">${title}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                        $('#musicals').append(temp_html)
+                    }
+                    }
+                })
         }
     </script>
 
