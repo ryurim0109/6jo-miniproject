@@ -98,6 +98,12 @@
             }); // $.ajax
         }; //showCommentTitle
 
+        let logout = function (name) {
+            document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            alert('다음에 또 만나요!!')
+            window.location.href = '/'
+        };
+
 
 
     </script>
@@ -111,7 +117,7 @@
       </h1>
       <ul id="memberInfo">
         <li><a>{{ name }}님 환영합니다!</a></li>
-        <li><button id="logout" type="button" class="btn btn-primary"><a>로그아웃</a></button></li>
+        <li><button id="logout" type="button" class="btn btn-primary" onclick="logout('mytoken')"><a>로그아웃</a></button></li>
       </ul>
     </div>
   </header>
