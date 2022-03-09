@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import jwt
 #from werkzeug.utils import secure_filename
+from bson import ObjectId
 
 import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
@@ -179,6 +180,31 @@ def detail():
     title_receive = request.form['title_give']
     music = db.musicals.find_one({'title': title_receive},{'_id': False})
     return jsonify({'music': music})
+
+#########디테일 페이지 댓글 삭제하기 ###########
+@app.route('/detail_delete/<post_id>', methods=["DELETE"])
+def del_comment(post_id):
+    token_receive = request.cookies.get('mytoken')
+    post = db.commentSave.find_one({'_id': ObjectId(post_id)}, {'_id': False})
+    username = post['name']
+    try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+            if post['name'] == payload['id']:
+                db.commentSave.delete_one({'_id': ObjectId(post_id)})
+                return jsonify({
+                    'result': 'success',
+                    'msg': '삭제되었습니다.',
+                    'username': username
+                }), 200
+            else:
+                return jsonify({
+                    'result': 'failure',
+                    'msg': '본인의 포스팅만 삭제가 가능합니다.'
+                }), 403
+    except jwt.ExpiredSignatureError:
+            return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+            return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 ##크롤링
 # ms = soup.select('table > tbody > tr')
