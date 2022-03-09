@@ -21,11 +21,15 @@ db = client.sign_up
 ##############메인페이지에 뮤지컬 정보 붙여넣기###############
 @app.route('/index')
 def home():
+    userid = request.args.get('useremail') #useremail의 리스트를 받아서 userid에 저장한다.
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         musicals = list(db.musicals.find({}, {'id': False}))
-        return render_template('index.html', musicals=musicals)
+        name = user = db.users.find_one({'name': userid}) #데이터베이스에서 email과 일치하는 name을 찾아서 name에 저장한다.
+
+        print(name)
+        return render_template('index.html', musicals=musicals, name=name)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
