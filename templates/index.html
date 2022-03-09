@@ -44,6 +44,7 @@
                                         </div>`
                         $('#musicals').append(temp_html)
                     }
+                      $('#more-btn').empty();
                     page += 1;
                     let temp_html = `<a class="btn btn-secondary" onclick="list(${page})" >더보기</a></li>`
                     if (page != last_page) {
