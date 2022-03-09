@@ -23,7 +23,7 @@
         $(document).ready(function(){
             let getLink = window.location.search;
             let title = decodeURI(getLink.split('?')[1])
-           // showComment()
+            //showComment()
             load(title)
         })
 
@@ -56,7 +56,7 @@
             })
         };
 
-        {#function showComment(title){
+        function showComment(title){
             let comment = $('#comment').val();
             let star = $('#star').val();
             $.ajax({
@@ -69,7 +69,7 @@
                 }
             }); // $.ajax
 
-        }; //showComment#}
+        }; //showComment
 
 
 
@@ -79,7 +79,7 @@
   <body>
   <header id="header" class="clearFix">
     <div id="header_inner" class="clearFix">
-      <h1 id="logo">
+      <h1 id="logo" onclick="window.location.href='/index'">
         뮤덕인생
       </h1>
       <ul id="memberInfo">
@@ -116,9 +116,9 @@
               <option value="4">⭐⭐⭐⭐</option>
               <option value="5">⭐⭐⭐⭐⭐</option>
             </select>
-            {#<button id="commentBtn" type="button" class="btn btn-dark" onclick="showComment(decodeURI(window.location.search.split('?')[1]))">입력</button>#}
+            <button id="commentBtn" type="button" class="btn btn-dark" onclick="showComment(decodeURI(window.location.search.split('?')[1]))">입력</button>
             {#<button id="commentBtn" type="button" class="btn btn-dark" onclick="showComment()">입력</button>#}
-            <button id="commentBtn" type="button" class="btn btn-dark">입력</button>
+            {#<button id="commentBtn" type="button" class="btn btn-dark">입력</button>#}
           </div> <!--c_box-->
           <div id="ment_box" class="clearFix">
               <div id="ment_list">
