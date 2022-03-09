@@ -18,17 +18,27 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('mongodb+srv://test:sparta@cluster0.7fswg.mongodb.net/?retryWrites=true&w=majority')
 db = client.sign_up
 
-
 ##############메인페이지에 뮤지컬 정보 붙여넣기###############
 @app.route('/index')
 def home():
+    # userid = request.args.get('useremail') #useremail의 리스트를 받아서 userid에 저장한다.
     token_receive = request.cookies.get('mytoken')
+    search_title = request.args.get('search_title')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        name = db.users.find_one({'username': payload['id']}) #데이터베이스에서 email과 일치하는 name을 찾아서 name에 저장한다.
+        name = db.users.find_one({'username': payload['id']})  # 데이터베이스에서 email과 일치하는 name을 찾아서 name에 저장한다.
         user = name["profile_name"]
-        print(user)
-        return render_template('index.html', name=user)
+
+        if search_title is None:
+            # DB에서 뮤지컬 정보 모두 가져오기
+            all_musicals = list(db.musicals.find({}, {'_id': False}))
+
+            # 닉네임 & 뮤지컬 목록 반환하기
+            return render_template("index.html", all_musicals=all_musicals, name=user)
+        else:
+            search_musicals = list(db.musicals.find({"title": {"$regex": search_title}}, {"id_": False}))
+            return render_template("search_main.html", serach_musicals=search_musicals, name=user)
+
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
