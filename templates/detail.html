@@ -23,6 +23,7 @@
         $(document).ready(function(){
             let getLink = window.location.search;
             let title = decodeURI(getLink.split('?')[1])
+           // showComment()
             load(title)
         })
 
@@ -46,14 +47,32 @@
                                           alt=""
                                         />
 
-                                    <p class="m_title">${title}</p>
+                                    <p id="title" class="m_title">${title}</p>
                                     <p class="m_period">${date}</p>
                                     <p class="m_place">${place}</p>`
 
                     $('#m_i').append(temp_html)
                 }
             })
-        }
+        };
+
+        {#function showComment(title){
+            let comment = $('#comment').val();
+            let star = $('#star').val();
+            $.ajax({
+                type: "POST",
+                url: "/detailc",
+                date: {comment_give: comment, star_give: star, title_give: title},
+                success: function (response){
+                    alert(response["msg"])
+                    window.location.reload();
+                }
+            }); // $.ajax
+
+        }; //showComment#}
+
+
+
     </script>
 
   </head>
@@ -64,7 +83,7 @@
         뮤덕인생
       </h1>
       <ul id="memberInfo">
-        <li><a>00님 환영합니다!</a></li>
+        <li><a>{{ name }}님 환영합니다!</a></li>
         <li><button id="logout" type="button" class="btn btn-primary"><a>로그아웃</a></button></li>
       </ul>
     </div>
@@ -87,8 +106,8 @@
           </div>
         <div id="comment_box">
           <div id="c_box" class="form-floating mb-3">
-            <div class="nickname">00님</div>
-            <input id="comment" type="text" class="form-control" placeholder="댓글을 입력해주세요!">
+            <div class="nickname">{{ name }}님</div>
+            <textarea id="comment" class="form-control" placeholder="댓글을 입력해주세요!"></textarea>
             <select id="star" class="form-select" aria-label="Default select example">
               <option selected>-- 별점⭐ --</option>
               <option value="1">⭐</option>
@@ -97,12 +116,14 @@
               <option value="4">⭐⭐⭐⭐</option>
               <option value="5">⭐⭐⭐⭐⭐</option>
             </select>
-            <button type="button" class="btn btn-dark">입력</button>
+            {#<button id="commentBtn" type="button" class="btn btn-dark" onclick="showComment(decodeURI(window.location.search.split('?')[1]))">입력</button>#}
+            {#<button id="commentBtn" type="button" class="btn btn-dark" onclick="showComment()">입력</button>#}
+            <button id="commentBtn" type="button" class="btn btn-dark">입력</button>
           </div> <!--c_box-->
           <div id="ment_box" class="clearFix">
               <div id="ment_list">
                 <div class="mentlistli">
-                  <p class="nickname">유림</p>
+                  <p id="nickname" class="nickname">유림</p>
                   <p class="comment_r">재미있어요 !</p>
                   <p class="star">별점 : ⭐⭐⭐⭐⭐</p>
                   <button type="button" class="btn btn-outline-danger change">수정</button>
