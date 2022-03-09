@@ -3,7 +3,7 @@ from math import *
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import jwt
-from werkzeug.utils import secure_filename
+#from werkzeug.utils import secure_filename
 
 import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
@@ -18,10 +18,9 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('mongodb+srv://test:sparta@cluster0.7fswg.mongodb.net/?retryWrites=true&w=majority')
 db = client.sign_up
 
-##############메인페이지에 뮤지컬 정보 붙여넣기###############
+##############메인페이지에 뮤지컬 정보 검색###############
 @app.route('/index')
 def home():
-    # userid = request.args.get('useremail') #useremail의 리스트를 받아서 userid에 저장한다.
     token_receive = request.cookies.get('mytoken')
     search_title = request.args.get('search_title')
     try:
@@ -51,10 +50,10 @@ def home():
 def login():
     return render_template('login.html')
 
-
+###################로그인 토큰 생성 및 발급############
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
-    # 로그인 토큰 생성
+
     useremail_receive = request.form['useremail_give']
     password_receive = request.form['password_give']
 
@@ -107,17 +106,6 @@ def check_dup2():
     exists = bool(db.users.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-
-
-
-
-
-
-
-
-
-
-
 #########################################################
 #예령님 더보기 버튼 ..
 
@@ -128,8 +116,6 @@ data = requests.get('http://ticket.interpark.com/TPGoodsList.asp?Ca=Mus', header
 soup = BeautifulSoup(data.text, 'html.parser')
 
 musicals = soup.select('table > tbody > tr')
-
-
 
 @app.route("/list", methods=["GET"])
 def musical_list():
