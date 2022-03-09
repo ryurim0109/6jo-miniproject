@@ -25,11 +25,10 @@ def home():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        musicals = list(db.musicals.find({}, {'id': False}))
         name = db.users.find_one({'username': payload['id']}) #데이터베이스에서 email과 일치하는 name을 찾아서 name에 저장한다.
         user = name["profile_name"]
         print(user)
-        return render_template('index.html', musicals=musicals, name=user)
+        return render_template('index.html', name=user)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -109,7 +108,7 @@ def check_dup2():
 
 
 #########################################################
-#예령님 더보기 버튼 구현이 안됨..
+#예령님 더보기 버튼 ..
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
