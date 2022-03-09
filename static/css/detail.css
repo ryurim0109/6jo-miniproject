@@ -156,6 +156,9 @@ div.mentlistli{
 div.mentlistli:first-child{
     border:none
 }
+div.mentlistli:last-child{
+    border-bottom: 1px solid #000;
+}
 button.change{
     position: absolute;
     height: 40px;
@@ -200,6 +203,7 @@ footer#footer div a{
         width: 100%;
         margin-top: 0;
     }
+
     ul#memberInfo{
         position: absolute;
         left:50%;
@@ -208,6 +212,10 @@ footer#footer div a{
         flex-direction: column;
         align-items: center;
         align-content: center;
+    }
+
+    h1#logo{
+        margin-top: 10px;
     }
 }
 @media screen and (max-width:720px){

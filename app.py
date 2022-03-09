@@ -3,14 +3,11 @@ from math import *
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import jwt
-import datetime
-
-from datetime import datetime, timedelta
-
 from werkzeug.utils import secure_filename
 
 import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -21,38 +18,44 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('mongodb+srv://test:sparta@cluster0.7fswg.mongodb.net/?retryWrites=true&w=majority')
 db = client.sign_up
 
-##로그인 페이지 첫화면 표시####
-@app.route('/')
-def main():
-    return render_template('login.html')
-
-@app.route('/')
-def login():
-    msg = request.args.get("msg")
-    return render_template('login.html', msg=msg)
-
-#토큰 유무 판단하고 있으면 메인페이지로 바로 연결, 없으면 로그인 페이지로 연결
+##############메인페이지에 뮤지컬 정보 붙여넣기###############
 @app.route('/index')
-def index():
+def home():
+    # userid = request.args.get('useremail') #useremail의 리스트를 받아서 userid에 저장한다.
     token_receive = request.cookies.get('mytoken')
+    search_title = request.args.get('search_title')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.users.find_one({"username" == payload["id"]})
-        user = user_info["username"]
-        return render_template('index.html', user_info=user)
+        name = db.users.find_one({'username': payload['id']})  # 데이터베이스에서 email과 일치하는 name을 찾아서 name에 저장한다.
+        user = name["profile_name"]
+
+        if search_title is None:
+            # DB에서 뮤지컬 정보 모두 가져오기
+            all_musicals = list(db.musicals.find({}, {'_id': False}))
+
+            # 닉네임 & 뮤지컬 목록 반환하기
+            return render_template("index.html", all_musicals=all_musicals, name=user)
+        else:
+            search_musicals = list(db.musicals.find({"title": {"$regex": search_title}}, {'_id': False}))
+            print(search_musicals)
+            return jsonify({'result':'success','search_musicals':search_musicals})
+            # return render_template("search_main.html", search_musicals=search_musicals, name=user)
+
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
-    return render_template('index.html')
-        ##user_info = db.users.find_one({"username": username}, {"_id": False})
-        #return render_template('index.html', user_info=user_info, status=status)
-    #except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-       # return redirect(url_for("main"))
+
+
+##############로그인 하기###############
+@app.route('/')
+def login():
+    return render_template('login.html')
 
 
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
+    # 로그인 토큰 생성
     useremail_receive = request.form['useremail_give']
     password_receive = request.form['password_give']
 
@@ -61,21 +64,15 @@ def sign_in():
 
     if result is not None:
         payload = {
-         'id': useremail_receive,
-         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+            'id': useremail_receive,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
         return jsonify({'result': 'success', 'token': token})
+    # 찾지 못하면
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
-
-
-##############메인페이지에 뮤지컬 정보 붙여넣기###############
-@app.route('/index')
-def home():
-    musicals = list(db.musicals.find({}, {'id':False}))
-    return render_template('index.html', musicals=musicals)
 
 ##############회원가입###############
 @app.route('/signup')
@@ -123,7 +120,7 @@ def check_dup2():
 
 
 #########################################################
-#예령님 더보기 버튼 구현이 안됨..
+#예령님 더보기 버튼 ..
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
@@ -146,9 +143,50 @@ def musical_list():
 
 ##########################디테일 페이지로 이동###############################
 
-@app.route('/detail')
+@app.route('/detail', methods=['GET'])
 def detail_go():
-    return render_template('detail.html')
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        name = db.users.find_one({'username': payload['id']})
+        user = name["profile_name"]
+        return render_template('detail.html', name=user)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
+## 디테일 페이지 댓글 저장하기 (쿠키 id값도 빼와서 해당 유저 정보에 데이터 db저장)
+@app.route('/detailc', methods=["POST"])
+def detail_comment():
+    token_receive = request.cookies.get('mytoken')
+
+    comment_receive = request.form['comment_give']
+    star_receive = request.form['star_give']
+    title_receive = request.form['title_give']
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        name = db.users.find_one({'username': payload['id']})
+        user = name["profile_name"]
+        doc = {
+             'name': user,
+             'comment': comment_receive,
+             'star': star_receive,
+             'title': title_receive,
+        }
+        db.commentSave.insert_one(doc)
+        return jsonify({'msg': '입력완료!'})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
+##디테일 페이지 댓글 불러오기
+@app.route('/detail_comment', methods=["POST"])
+def show_comment():
+    title_receive = request.form['title_give']
+    comment_list = list(db.commentSave.find({'title':title_receive},{'_id': False}))
+    return jsonify({'comment': comment_list})
 
 #############디테일 페이지 뮤지컬 정보 불러오기
 @app.route('/detail1', methods=["POST"])
@@ -157,16 +195,9 @@ def detail():
     music = db.musicals.find_one({'title': title_receive},{'_id': False})
     return jsonify({'music': music})
 
-@app.route('/search', methods=["GET"])
-def search():
-    # find_title를 포함한 제목 찾아서 db에 저장된 image, title 보여주기
-    search_title = request.form['search_title']
-    if search_title is None:
-        all_musicals = list(db.musicals.find({}, {'_id': False}))
-        return render_template('index.html', musicals=all_musicals)
-    else:
-        search_musicals = list(db.musicals.find({'musical_title':{"$regex":search_title}},{'id':False}))
-        return render_template('search_main.html', musicals=search_musicals)
+
+
+
 
 #########################################################
 # 실행 코드 (맨 아래)

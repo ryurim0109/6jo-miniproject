@@ -27,20 +27,70 @@
                 url: "/list",
                 data: {'page': page},
                 success: function (response) {
-                    // let rows = response['musicals']
-                    let last_page = response['last_page']
-                    //for(let i =0; i< row.lenth; i++){
-                    //let image = rows[i]['image']
-                    //let title = rows[i]['title']
-                    //  let temp_html =``
+                     let rows = response['musicals']
+                    let last_page=response['last_page']
+                    for (let i = 0; i < rows.length; i++) {
+                        let image = rows[i]['image']
+                        let title = rows[i]['title']
+                        let temp_html = `<div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?${title}';">
+                                            <div class="card h-100">
+                                                <img class="card-img-top" src="${image}" alt="..."/>
+                                                <div class="card-body p-4">
+                                                    <div class="text-center">
+                                                        <h5 class="fw-bolder">${title}</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`
+                        $('#musicals').append(temp_html)
+                    }
+                      $('#more-btn').empty();
                     page += 1;
                     let temp_html = `<a class="btn btn-secondary" onclick="list(${page})" >더보기</a></li>`
                     if (page != last_page) {
                         $('#more-btn').append(temp_html)
                     }
                 }
+            })}
+
+        function find() {
+            let search_title = $('#find_text').val()
+            if (search_title == '') {
+                alert('검색할 제목을 입력해주세요.')
+                return;
+            } $('#musicals').empty();
+            event.preventDefault()
+            $.ajax({
+                type: "GET",
+                url: "/index",
+                data: {"search_title": search_title},
+                success: function (response) {
+                    let rows = response['search_musicals']
+                    for (let i=0; i<rows.length; i ++) {
+                        let image = rows[i]['image']
+                        let title = rows[i]['title']
+                        let temp_html = `<div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?${title}';">
+                                    <div class="card h-100">
+                                        <img class="card-img-top" src="${image}" alt="..."/>
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder">${title}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                        $('#musicals').append(temp_html);
+                        const moreBtn =document.querySelector('#more-btn');
+                        moreBtn.style.display="none"
+                    }
+                    }
                 })
-            }
+        }
+          function logout(){
+           $.removeCookie('mytoken');
+           alert('로그아웃!');
+            window.location.href='/'
+        }
     </script>
 
 </head>
@@ -48,7 +98,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">뮤덕인생</a>
+        <a class="navbar-brand" href="/index">뮤덕인생</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
@@ -70,7 +120,8 @@
                 </li>
             </ul>
             <form class="d-flex">
-                <button class="btn btn-outline-dark" type="submit">
+                <p id="wel_name">{{ name }}님 환영합니다</p>
+                <button class="btn btn-outline-dark" type="button" onclick="logout()">
                     로그아웃
                 </button>
             </form>
@@ -81,7 +132,7 @@
 <header class="bg-dark py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">뮤덕인생</h1>
+            <h1 class="display-4 fw-bolder" style=" cursor: pointer;" onclick="window.location.href='/index'">뮤덕인생</h1>
             <p class="lead fw-normal text-white-50 mb-0">뮤지컬을 좋아하는 사람들의 모임입니다. 리뷰와 기대평을 남겨주세요!</p>
         </div>
     </div>
@@ -90,15 +141,55 @@
 <nav class="navbar navbar-light" id="search_bar" >
   <div class="search">
     <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="검색어를 입력해주세요." aria-label="Search" id="find_text" >
-      <button class="btn btn-outline-success" type="submit" >검색</button>
-    </form>
+                <input class="form-control me-2" type="search" placeholder="검색어를 입력해주세요." aria-label="Search"
+                       id="find_text">
+                <button class="btn btn-outline-success" type="submit" onclick="find()">검색</button>
+            </form>
   </div>
 </nav>
+
+<!-- Found Musical List -->
+<div id="search_cards">
+    <div class="container-fluid p-3">
+        <div id="contents-box" class="row">
+
+            {% for musical in musicals %}
+
+            {% set poster_path = musical['music_poster'] %}
+            {% set title = musical['music_title'] %}
+
+            <div class="col-xl-3 col-lg-4 col-md-6 col-xs-12 my-2">
+                <div class="card">
+
+                    {% set poster_path = musical['music_poster'] %}
+
+                    <div class="card-img-top poster">
+                    </div>
+                    <div class="card-img-top poster" style="background-image: url({{poster_path}});">
+                    </div>
+                    <div class="card-body p-3">
+                        <h5 class="card-title mb-3">{{title}}</h5>
+
+                        <div class="justify-content-between">
+                            <div class="btn_box d-inline">
+                                <a href="#" class="btn btn-sm btn-primary">리뷰보기</a>
+                                <a href="/detail" class="btn btn-sm btn-primary">리뷰작성</a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <section class="py-5">
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="musicals" >
-            {% for musical in musicals %}
+           {# {% for musical in musicals %}
             <div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?{{ musical.title }}';">
                 <div class="card h-100" >
                     <img class="card-img-top" src="{{ musical.image }}" alt="..."/>
@@ -109,7 +200,7 @@
                     </div>
                 </div>
             </div>
-            {% endfor %}
+            {% endfor %}#}
         </div>
 
         <div id="more-btn">

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-    <title>뮤덕인생</title>
+    <title>Log In</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -66,11 +66,13 @@
                         <div class="form-group mb-3">
                             <label class="label" for="input-email">ID</label>
                             <input type="text" id="input-email" class="form-control" placeholder="johndoe@gmail.com">
+                            <p id="help-id-login" class="help is-danger"></p>
                             <span class="icon fa fa-paper-plane-o"></span>
                         </div>
                         <div class="form-group mb-3">
                             <label class="label" for="password">Password</label>
                             <input id="password" type="password" class="form-control" placeholder="Password">
+                            <p id="help-password" class="help is-hidden">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요.</p>
                             <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                             <span class="icon fa fa-lock"></span>
                         </div>
@@ -88,7 +90,7 @@
         </div>
     </div>
 </section>
-<script src="/static/js/login.js"/>
+<script src="../static/js/login.js"/>
 <script src="../static/js/jquery.min.js"></script>
 <script src="../static/js/popper.js"></script>
 <script src="../static/js/bootstrap.min.js"></script>
@@ -96,3 +98,4 @@
 
 </body>
 </html>
+
