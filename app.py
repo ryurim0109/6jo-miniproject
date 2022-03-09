@@ -2,9 +2,11 @@ import requests
 from math import *
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
+import jwt
 
 import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -17,10 +19,45 @@ db = client.sign_up
 
 
 ##############메인페이지에 뮤지컬 정보 붙여넣기###############
-@app.route('/')
+@app.route('/index')
 def home():
-    musicals = list(db.musicals.find({}, {'id':False}))
-    return render_template('index.html', musicals=musicals)
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        musicals = list(db.musicals.find({}, {'id': False}))
+        return render_template('index.html', musicals=musicals)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
+
+##############로그인 하기###############
+@app.route('/')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    # 로그인
+    useremail_receive = request.form['useremail_give']
+    password_receive = request.form['password_give']
+
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'username': useremail_receive, 'password': pw_hash})
+
+    if result is not None:
+        payload = {
+            'id': useremail_receive,
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return jsonify({'result': 'success', 'token': token})
+    # 찾지 못하면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 ##############회원가입###############
 @app.route('/signup')
