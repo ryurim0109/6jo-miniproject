@@ -195,7 +195,23 @@ def detail():
     music = db.musicals.find_one({'title': title_receive},{'_id': False})
     return jsonify({'music': music})
 
-
+##크롤링
+# ms = soup.select('table > tbody > tr')
+# for mm in ms:
+#     image = mm.select_one('td.RKthumb > a > img')['src']
+#     title = mm.select_one('td.RKthumb > a > img')['alt']
+#     place = mm.select_one('td:nth-child(3) > a').text
+#     date = mm.select_one('td:nth-child(4)').text.replace('\n','').replace('\t','')
+#
+#     doc = {
+#     'image': image,
+#     'title': title,
+#     'place':place,
+#     'date':date
+#      }
+#
+#
+#     db.musicals.insert_one(doc)
 
 
 
