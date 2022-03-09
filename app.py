@@ -161,9 +161,9 @@ def detail_go():
 def detail_comment():
     token_receive = request.cookies.get('mytoken')
 
-    comment_receive = request.form.get('comment_give')
-    star_receive = request.form.get('star_give')
-    title_receive = request.form.get('title_give')
+    comment_receive = request.form['comment_give']
+    star_receive = request.form['star_give']
+    title_receive = request.form['title_give']
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         username = payload['id']

@@ -62,7 +62,7 @@
             $.ajax({
                 type: "POST",
                 url: "/detailc",
-                date: {comment_give: comment, star_give: star, title_give: title},
+                data: {comment_give: comment, star_give: star, title_give: title},
                 success: function (response){
                     alert(response["msg"])
                     window.location.reload();
