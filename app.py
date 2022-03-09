@@ -166,9 +166,10 @@ def detail_comment():
     title_receive = request.form['title_give']
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        username = payload['id']
+        name = db.users.find_one({'username': payload['id']})
+        user = name["profile_name"]
         doc = {
-             'name': username,
+             'name': user,
              'comment': comment_receive,
              'star': star_receive,
              'title': title_receive,
@@ -179,6 +180,13 @@ def detail_comment():
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
          return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+
+##디테일 페이지 댓글 불러오기
+@app.route('/detail_comment', methods=["POST"])
+def show_comment():
+    title_receive = request.form['title_give']
+    comment_list = list(db.commentSave.find({'title':title_receive},{'_id': False}))
+    return jsonify({'comment': comment_list})
 
 #############디테일 페이지 뮤지컬 정보 불러오기
 @app.route('/detail1', methods=["POST"])

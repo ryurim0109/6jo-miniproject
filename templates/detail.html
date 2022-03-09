@@ -23,7 +23,7 @@
         $(document).ready(function(){
             let getLink = window.location.search;
             let title = decodeURI(getLink.split('?')[1])
-            //showComment()
+            showCommentTitle(title)
             load(title)
         })
 
@@ -70,6 +70,33 @@
             }); // $.ajax
 
         }; //showComment
+
+        function showCommentTitle(title){
+
+            $.ajax({
+                type: "POST",
+                url: "/detail_comment",
+                data: {title_give: title},
+                success: function (response){
+                   // console.log(response['comment'])
+                    let comments = response['comment']
+                    for (let i =0; i<comments.length; i++){
+                        let name = comments[i]['name']
+                        let comment = comments[i]['comment']
+                        let star = comments[i]['star']
+                        let star_image ='⭐'.repeat(star)
+
+                        let temp_html=`<div class="mentlistli">
+                                          <p id="nickname" class="nickname">${name}</p>
+                                          <p class="comment_r">${comment}</p>
+                                          <p class="star">별점:${star_image}</p>
+                                          <button type="button" class="btn btn-outline-danger change">수정</button>
+                                        </div>`
+                        $('#ment_list').append(temp_html);
+                    }
+                }
+            }); // $.ajax
+        }; //showCommentTitle
 
 
 
@@ -122,18 +149,13 @@
           </div> <!--c_box-->
           <div id="ment_box" class="clearFix">
               <div id="ment_list">
-                <div class="mentlistli">
+                {#<div class="mentlistli">
                   <p id="nickname" class="nickname">유림</p>
                   <p class="comment_r">재미있어요 !</p>
                   <p class="star">별점 : ⭐⭐⭐⭐⭐</p>
                   <button type="button" class="btn btn-outline-danger change">수정</button>
-                </div>
-                <div class="mentlistli">
-                  <p class="nickname">유림</p>
-                  <p class="comment_r">재미있어요 !</p>
-                  <p class="star">별점 : ⭐⭐⭐⭐⭐</p>
-                  <button type="button" class="btn btn-outline-danger change">수정</button>
-                </div>
+                </div>#}
+
 
               </div>  <!--ment_list-->
           </div> <!--ment_box-->
