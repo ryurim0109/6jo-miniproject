@@ -2,6 +2,12 @@ import requests
 from math import *
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
+import jwt
+import datetime
+
+from datetime import datetime, timedelta
+
+from werkzeug.utils import secure_filename
 
 import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
@@ -15,9 +21,58 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('mongodb+srv://test:sparta@cluster0.7fswg.mongodb.net/?retryWrites=true&w=majority')
 db = client.sign_up
 
+##로그인 페이지 첫화면 표시####
+@app.route('/')
+def main():
+    return render_template('login.html')
+
+@app.route('/')
+def login():
+    msg = request.args.get("msg")
+    return render_template('login.html', msg=msg)
+
+#토큰 유무 판단하고 있으면 메인페이지로 바로 연결, 없으면 로그인 페이지로 연결
+@app.route('/index')
+def index():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username" == payload["id"]})
+        user = user_info["username"]
+        return render_template('index.html', user_info=user)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    return render_template('index.html')
+        ##user_info = db.users.find_one({"username": username}, {"_id": False})
+        #return render_template('index.html', user_info=user_info, status=status)
+    #except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+       # return redirect(url_for("main"))
+
+
+@app.route('/sign_in', methods=['POST'])
+def sign_in():
+    useremail_receive = request.form['useremail_give']
+    password_receive = request.form['password_give']
+
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'username': useremail_receive, 'password': pw_hash})
+
+    if result is not None:
+        payload = {
+         'id': useremail_receive,
+         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return jsonify({'result': 'success', 'token': token})
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
+
 
 ##############메인페이지에 뮤지컬 정보 붙여넣기###############
-@app.route('/')
+@app.route('/index')
 def home():
     musicals = list(db.musicals.find({}, {'id':False}))
     return render_template('index.html', musicals=musicals)

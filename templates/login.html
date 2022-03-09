@@ -1,10 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>뮤덕인생</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://kit.fontawesome.com/05f8d7998d.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="../static/css/signup.css">
+    <style>
+        html, body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .field-icon {
+            cursor: pointer
+        }
+
+        form > div {
+            margin-top: 30px;
+        }
+
+        .help {
+            position: absolute;
+            font-size: 11.5px;
+            color: #eed5d5;
+        }
+
+        .is-danger {
+            color: red;
+        }
+
+        .is-success {
+            color: green;
+        }
+
+        .is-hidden {
+            display: none;
+        }
+
+
+    </style>
 </head>
-<body>
+<body class="img"
+      style="background-image: url(https://cdn.pixabay.com/photo/2017/01/11/00/29/sydney-1970604_960_720.jpg);">
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">뮤덕인생</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="login-wrap">
+                    <h3 class="text-center mb-4">Log In</h3>
+                    <form action="#" class="signup-form">
+                        <div class="form-group mb-3">
+                            <label class="label" for="input-email">ID</label>
+                            <input type="text" id="input-email" class="form-control" placeholder="johndoe@gmail.com">
+                            <span class="icon fa fa-paper-plane-o"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="label" for="password">Password</label>
+                            <input id="password" type="password" class="form-control" placeholder="Password">
+                            <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                            <span class="icon fa fa-lock"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id='bt1' class="form-control btn btn-primary submit px-3">Log In
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id='bt2' class="form-control btn btn-primary submit px-3">Sign Up
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/static/js/login.js"/>
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/popper.js"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+<script src="../static/js/main.js"></script>
 
 </body>
 </html>
