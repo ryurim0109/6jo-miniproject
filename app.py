@@ -153,11 +153,15 @@ def detail_comment():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         name = db.users.find_one({'username': payload['id']})
         user = name["profile_name"]
+        comment_list = list(db.commentSave.find({}, {'_id': False}))
+        count = len(comment_list) + 1
+
         doc = {
              'name': user,
              'comment': comment_receive,
              'star': star_receive,
              'title': title_receive,
+             'num': count
         }
         db.commentSave.insert_one(doc)
         return jsonify({'msg': '입력완료!'})
@@ -172,6 +176,28 @@ def show_comment():
     title_receive = request.form['title_give']
     comment_list = list(db.commentSave.find({'title':title_receive},{'_id': False}))
     return jsonify({'comment': comment_list})
+
+##디테일 페이지 댓글 삭제하기
+@app.route('/detail_delete', methods=["POST"])
+def del_comment():
+    token_receive = request.cookies.get('mytoken')
+    num_receive = request.form['num_give']
+    names = list(db.commentSave.find({'num': int(num_receive)}, {'_id': False}))
+    nam = names[0]
+    print(nam)
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        name = db.users.find_one({'username': payload['id']},{'_id':False})
+        print(name)
+        if nam['name'] == name['profile_name']:
+            db.commentSave.delete_one({'num':int(num_receive)})
+            return jsonify({'msg': '삭제완료!'})
+        else:
+            return jsonify({'msg': '다른사람이 작성한 글입니다. 삭제할 수 없습니다.'})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 #############디테일 페이지 뮤지컬 정보 불러오기
 @app.route('/detail1', methods=["POST"])

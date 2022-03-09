@@ -72,36 +72,52 @@
 
         function showCommentTitle(title){
 
-            $.ajax({
-                type: "POST",
-                url: "/detail_comment",
-                data: {title_give: title},
-                success: function (response){
-                   // console.log(response['comment'])
-                    let comments = response['comment']
-                    for (let i =0; i<comments.length; i++){
-                        let name = comments[i]['name']
-                        let comment = comments[i]['comment']
-                        let star = comments[i]['star']
-                        let star_image ='⭐'.repeat(star)
+    $.ajax({
+        type: "POST",
+        url: "/detail_comment",
+        data: {title_give: title},
+        success: function (response){
+           // console.log(response['comment'])
+            let comments = response['comment']
+            for (let i =0; i<comments.length; i++){
+                let num = comments[i]['num']
+                let name = comments[i]['name']
+                let comment = comments[i]['comment']
+                let star = comments[i]['star']
+                let star_image ='⭐'.repeat(star)
 
-                        let temp_html=`<div class="mentlistli">
-                                          <p id="nickname" class="nickname">${name}</p>
-                                          <p class="comment_r">${comment}</p>
-                                          <p class="star">별점:${star_image}</p>
-                                          <button type="button" class="btn btn-outline-danger change">삭제</button>
-                                        </div>`
-                        $('#ment_list').append(temp_html);
-                    }
-                }
-            }); // $.ajax
-        }; //showCommentTitle
+                let temp_html=`<div class="mentlistli">
+                                  <p id="nickname" class="nickname">${name}</p>
+                                  <p class="comment_r">${comment}</p>
+                                  <p class="star">별점:${star_image}</p>
+                                  <button type="button" class="btn btn-outline-danger change" onclick="delComment(${num})">삭제</button>
+                                </div>`
+                $('#ment_list').append(temp_html);
+                console.log(num)
+
+            }
+        }
+    }); // $.ajax
+}; //showCommentTitle
 
         let logout = function (name) {
             document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
             alert('다음에 또 만나요!!')
             window.location.href = '/'
         };
+
+        function delComment(num) {
+    console.log()
+    $.ajax({
+        type: "POST",
+        url: "/detail_delete",
+        data: {num_give:num},
+        success: function (response) {
+            alert(response["msg"])
+            window.location.reload()
+        }
+    }); // $.ajax
+}
 
 
 
