@@ -22,10 +22,19 @@
             gap:20px;
         }
         #wel_name{
-            height: 56px;
             font: normal 1.125rem "Noto Sans KR";
             padding-top:25px;
             box-sizing:border-box;
+        }
+        div#transEffect{
+            position:relative; transition: all 0.5s;
+        }
+        div#transEffect:hover {
+             transform: translateY(-10px);
+        }
+        div#poster{
+            border-radius:30px;
+            box-shadow: 8px 5px 5px grey;
         }
     </style>
     <script>
@@ -44,8 +53,8 @@
                     for (let i = 0; i < rows.length; i++) {
                         let image = rows[i]['image']
                         let title = rows[i]['title']
-                        let temp_html = `<div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?${title}';">
-                                            <div class="card h-100">
+                        let temp_html = `<div id="transEffect" class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?${title}';">
+                                            <div id="poster" class="card h-100">
                                                 <img class="card-img-top" src="${image}" alt="..."/>
                                                 <div class="card-body p-4">
                                                     <div class="text-center">
@@ -81,8 +90,8 @@
                     for (let i=0; i<rows.length; i ++) {
                         let image = rows[i]['image']
                         let title = rows[i]['title']
-                        let temp_html = `<div class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?${title}';">
-                                    <div class="card h-100">
+                        let temp_html = `<div id="transEffect" class="col mb-5" style=" cursor: pointer;" onclick="location.href='/detail?${title}';">
+                                    <div id="poster" class="card h-100">
                                         <img class="card-img-top" src="${image}" alt="..."/>
                                         <div class="card-body p-4">
                                             <div class="text-center">
