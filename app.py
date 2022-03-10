@@ -37,7 +37,7 @@ def home():
         else:
             search_musicals = list(db.musicals.find({"title": {"$regex": search_title}}, {'_id': False}))
             return jsonify({'result':'success','search_musicals':search_musicals})
-            # return render_template("search_main.html", search_musicals=search_musicals, name=user)
+            
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
