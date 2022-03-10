@@ -3,7 +3,6 @@ from math import *
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import jwt
-#from werkzeug.utils import secure_filename
 
 import hashlib
 from flask import Flask, render_template, jsonify, request, redirect, url_for
@@ -37,7 +36,7 @@ def home():
         else:
             search_musicals = list(db.musicals.find({"title": {"$regex": search_title}}, {'_id': False}))
             return jsonify({'result':'success','search_musicals':search_musicals})
-            
+
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
@@ -106,17 +105,7 @@ def check_dup2():
     exists = bool(db.users.find_one({"profile_name": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-#########################################################
-#예령님 더보기 버튼 ..
-
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-data = requests.get('http://ticket.interpark.com/TPGoodsList.asp?Ca=Mus', headers=headers)
-
-soup = BeautifulSoup(data.text, 'html.parser')
-
-musicals = soup.select('table > tbody > tr')
-
+##############################더보기 버튼구현###################
 @app.route("/list", methods=["GET"])
 def musical_list():
     page = request.args.get("page", 1, type=int)
@@ -205,7 +194,12 @@ def detail():
     music = db.musicals.find_one({'title': title_receive},{'_id': False})
     return jsonify({'music': music})
 
-##크롤링
+##크롤링 코드들#######
+# headers = {
+#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+# data = requests.get('http://ticket.interpark.com/TPGoodsList.asp?Ca=Mus', headers=headers)
+#
+# soup = BeautifulSoup(data.text, 'html.parser')
 # ms = soup.select('table > tbody > tr')
 # for mm in ms:
 #     image = mm.select_one('td.RKthumb > a > img')['src']
