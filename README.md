@@ -1,4 +1,7 @@
-<h2 align="center"> ✨ 프로젝트 소개 ✨</h2>
+<h2 align="center"> ✨ 프로젝트 소개 및 시연 영상 📷</h2>
+
+[![시연영상](https://media.vlpt.us/images/ryurim0109/post/218fefc4-d7fc-465d-8c4f-ae926f389713/%E1%84%86%E1%85%B2%E1%84%83%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A2%E1%86%BC.png)](https://youtu.be/-wjUqe8qFT4)
+
 <h5 align="center">뮤지컬을 좋아하는 이들을 위해 뮤지컬을 모아놓은 사이트입니다. <br />
 자신이 좋아하는 뮤지컬에 후기 리뷰를 달고 서로 공유할 수 있는 플랫폼입니다. </h5>
 <h2 align="center"> 📅 제작기간 및 팀원 소개 🎃 </h2>
@@ -9,9 +12,7 @@
     <code>오예령</code> : 메인 페이지 <br />
     <code>김유림</code> : 댓글 입력 페이지 <br />
 </p>
-<h2  align="center"> 📷 시연 영상 📷 </h2>
 
-[![시연영상](https://media.vlpt.us/images/ryurim0109/post/218fefc4-d7fc-465d-8c4f-ae926f389713/%E1%84%86%E1%85%B2%E1%84%83%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A2%E1%86%BC.png)](https://youtu.be/-wjUqe8qFT4)
 
 <h2 align="center">🛠 사용한 기술 🛠</h2>
 
@@ -66,37 +67,40 @@
 <li>다른 컴퓨터 환경으로 인한 오류</li>
 <li>깃 롤백하기</li>
 
-<h2 align="center"> 🪄 해결방법 🪄️ </h2>
+<h2 align="center"> 🌟 해결방법 🌟 </h2>
 
-> 아이디와 닉네임을 중복확인 과정에서 중복확인 함수가 작동되지 않는것을 확인하였습니다.
+> -아이디와 닉네임을 중복확인 과정에서 중복확인 함수가 작동되지 않는것을 확인하였습니다.
 > >단순히 비교 인자의 키 값의 이름이 잘못 입력돼 있는걸 확인 후 수정하였습니다.
 > 
-> 댓글 삭제 기능을 구현하는 과정에서 로그인한 본인이 작성한 댓글만 삭제하려고 할 때 구현이 안됐습니다.
+> -댓글 삭제 기능을 구현하는 과정에서 로그인한 본인이 작성한 댓글만 삭제하려고 할 때 구현이 안됐습니다.
 > >이에 댓글을 작성하는 시점에서 댓글에 고유한 넘버링을 하여 그 넘버링값에 맞는 아이디와 로그인한 사람의 아이디 값을 매칭시켜 맞을 경우 삭제가 가능하도록 구현하였습니다.
 > 
-> 로그아웃 기능을 구현하는 도중 상세페이지에서만 .removeCookie 가 작동하지 않았습니다.
+> -로그아웃 기능을 구현하는 도중 상세페이지에서만 .removeCookie 가 작동하지 않았습니다.
 > >결국 document.cookie 값에 강제적으로 유효시간을 과거 시점으로 설정 후 로그아웃 가능하게 구현하였습니다.
 > 
-> 검색 기능 실험 중 서버에서 받아오는 key값이 없다는 오류를 확인하였습니다.
+> -검색 기능 실험 중 서버에서 받아오는 key값이 없다는 오류를 확인하였습니다.
 > >그래서 구글링 후 코드를 수정하였고, 다시 연결되는 것을 확인할 수 있었습니다. 
 > > ```
 > > 기존 코드 search_title = request.form['search_title']
 > > 수정 코드 search_title = request.args.get('search_title')
 > > ```
-> 검색 기능 실행 후 포스터가 중복되게 붙는 현상을 발견했습니다. 
+> -검색 기능 실행 후 포스터가 중복되게 붙는 현상을 발견했습니다. 
 > >크롤링 과정에서 문제가 있는 지 재확인을 해보았는데, 문제 없이 실행이 되어 저장된 DB를 삭제하고 다시 저장하여 문제를 해결했습니다.
 > 
-> 배포를 하는 과정에서 TypeError: Object of type bytes is not JSON serializable 오류가 발생했습니다.
+> -배포를 하는 과정에서 TypeError: Object of type bytes is not JSON serializable 오류가 발생했습니다.
 > >로그인 토큰 생성 및 발급 코드에 .decode('utf-8')를 붙여서 해결했습니다.
-> 
-> 
+> >``` 
+> >기존 코드 token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+> >수정 코드 token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
+> >```
+
 
 
 <h2 align="center"> 📋 개인 회고 📋 </h2>
 
-예령 : [tistory](https://ye-ryung.tistory.com/) 
-민철 : [velog](https://velog.io/@alscjf2030) 
-봉진 : [velog](https://velog.io/@kirilocha) 
+예령 : [tistory](https://ye-ryung.tistory.com/) <br/>
+민철 : [velog](https://velog.io/@alscjf2030) <br/>
+봉진 : [velog](https://velog.io/@kirilocha) <br/>
 유림 : [velog](https://velog.io/@ryurim0109) 
 
 
