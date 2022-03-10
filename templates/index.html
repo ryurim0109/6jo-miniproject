@@ -20,6 +20,8 @@
         #form_name{
             align-content: space-between;
             gap:20px;
+            position: absolute;
+            right: 5%;
         }
         #wel_name{
             font: normal 1.125rem "Noto Sans KR";
@@ -30,11 +32,21 @@
             position:relative; transition: all 0.5s;
         }
         div#transEffect:hover {
-             transform: translateY(-10px);
+             transform: translateY(-15px);
+        }
+        button.btn-outline-dark{
+            height: 50px;
+            margin-top: 10px;
         }
         div#poster{
             border-radius:30px;
-            box-shadow: 8px 5px 5px grey;
+            box-shadow: 8px 5px 5px grey;;
+        }
+        div#displayFlex{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            padding-bottom:10px
         }
     </style>
     <script>
@@ -118,13 +130,13 @@
 <body>
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
+    <div id="displayFlex" class="container px-4 px-lg-5">
         <a class="navbar-brand" href="/index">뮤덕인생</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            {#<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
@@ -139,7 +151,7 @@
                         <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
                     </ul>
                 </li>
-            </ul>
+            </ul>#}
             <form id="form_name" class="d-flex">
                 <p id="wel_name">{{ name }}님 환영합니다</p>
                 <button class="btn btn-outline-dark" type="button" onclick="logout()">
