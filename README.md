@@ -11,6 +11,8 @@
 </p>
 <h2  align="center"> 📷 시연 영상 📷 </h2>
 
+[![시연영상](https://media.vlpt.us/images/ryurim0109/post/218fefc4-d7fc-465d-8c4f-ae926f389713/%E1%84%86%E1%85%B2%E1%84%83%E1%85%A5%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A2%E1%86%BC.png)](https://youtu.be/-wjUqe8qFT4)
+
 <h2 align="center">🛠 사용한 기술 🛠</h2>
 
 <h4>- 언어</h4>
