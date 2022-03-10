@@ -34,7 +34,7 @@
         div#transEffect:hover {
              transform: translateY(-15px);
         }
-        button.btn-outline-dark{
+        button#light{
             height: 50px;
             margin-top: 10px;
         }
@@ -47,6 +47,26 @@
             flex-direction: row;
             justify-content: space-around;
             padding-bottom:10px
+        }
+        #img_bg{
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4)),
+            url(https://i.pinimg.com/564x/f2/2d/49/f22d494136c9d60a3bc5c36b314106aa.jpg);
+        }
+        #logo{
+            padding-top: 100px;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100%;
+            height: 100%;
+            background-image: url("https://png.pngtree.com/thumb_back/fw800/background/20201019/pngtree-vintage-red-brick-wall-background-brick-wall-texture-background-image_421413.jpg");
+            background-size: contain;
+            background-repeat: repeat-y;
+        }
+        .color_w{
+            color:#fff !important;
         }
     </style>
     <script>
@@ -131,7 +151,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div id="displayFlex" class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="/index">뮤덕인생</a>
+        <a class="navbar-brand color_w" href="/index">뮤덕인생</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
@@ -153,8 +173,8 @@
                 </li>
             </ul>#}
             <form id="form_name" class="d-flex">
-                <p id="wel_name">{{ name }}님 환영합니다</p>
-                <button class="btn btn-outline-dark" type="button" onclick="logout()">
+                <p id="wel_name" class="color_w">{{ name }}님 환영합니다</p>
+                <button id="light"class="btn btn-outline-light" type="button" onclick="logout()">
                     로그아웃
                 </button>
             </form>
@@ -162,10 +182,10 @@
     </div>
 </nav>
 <!-- Header-->
-<header class="bg-dark py-5">
-    <div class="container px-4 px-lg-5 my-5">
+<header id="img_bg">
+    <div >
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder" style=" cursor: pointer;" onclick="window.location.href='/index'">뮤덕인생</h1>
+            <h1 id="logo" class="display-4 fw-bolder" style=" cursor: pointer;" onclick="window.location.href='/index'">뮤덕인생</h1>
             <p class="lead fw-normal text-white-50 mb-0">뮤지컬을 좋아하는 사람들의 모임입니다. 리뷰와 기대평을 남겨주세요!</p>
         </div>
     </div>
@@ -176,7 +196,7 @@
     <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="검색어를 입력해주세요." aria-label="Search"
                        id="find_text">
-                <button class="btn btn-outline-success" type="submit" onclick="find()">검색</button>
+                <button class="btn btn-outline-light" type="submit" onclick="find()">검색</button>
             </form>
   </div>
 </nav>
