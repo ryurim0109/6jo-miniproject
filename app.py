@@ -182,14 +182,13 @@ def show_comment():
 def del_comment():
     token_receive = request.cookies.get('mytoken')
     num_receive = request.form['num_give']
-    names = list(db.commentSave.find({'num': int(num_receive)}, {'_id': False}))
-    nam = names[0]
-    print(nam)
+    names = db.commentSave.find_one({'num': int(num_receive)}, {'_id': False})
+
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         name = db.users.find_one({'username': payload['id']},{'_id':False})
         print(name)
-        if nam['name'] == name['profile_name']:
+        if names['name'] == name['profile_name']:
             db.commentSave.delete_one({'num':int(num_receive)})
             return jsonify({'msg': '삭제완료!'})
         else:
