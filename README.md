@@ -45,4 +45,6 @@
 <h4>-호스팅<h4>
 <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white">
 
-
+<h2 align="center">🛠 필수 요구 사항 🛠</h2>
+<h4>-jinja2 템플릿 엔진을 이용한 서버사이드 렌더링</h4>
+<h4>-JWT 인증 방식으로 로그인 구현하기</h4>
