@@ -96,14 +96,14 @@ def sign_up():
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     useremail_receive = request.form['useremail_give']
-    exists = bool(db.users.find_one({"useremail": useremail_receive}))
+    exists = bool(db.users.find_one({"username": useremail_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
 
 @app.route('/sign_up/check_dup2', methods=['POST'])
 def check_dup2():
     username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
+    exists = bool(db.users.find_one({"profile_name": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
 #########################################################
